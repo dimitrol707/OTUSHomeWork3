@@ -21,6 +21,7 @@
 		D1B9E6AE278C0A6C006EAE64 /* AnimeContainer.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D1B9E6A8278C0A6C006EAE64 /* AnimeContainer.xcdatamodeld */; };
 		D1B9E6B4278C0A78006EAE64 /* AnimeDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1B9E6B1278C0A78006EAE64 /* AnimeDataService.swift */; };
 		D1B9E6B5278C0A78006EAE64 /* AnimeGenreService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1B9E6B2278C0A78006EAE64 /* AnimeGenreService.swift */; };
+		D1D16305278EA40700A0B793 /* UIComponents in Frameworks */ = {isa = PBXBuildFile; productRef = D1D16304278EA40700A0B793 /* UIComponents */; };
 		D1F3C87B278C1FFD00B9125C /* ServicePackage in Frameworks */ = {isa = PBXBuildFile; productRef = D1F3C87A278C1FFD00B9125C /* ServicePackage */; };
 /* End PBXBuildFile section */
 
@@ -41,6 +42,7 @@
 		D1B9E6A9278C0A6C006EAE64 /* AnimeContainer.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = AnimeContainer.xcdatamodel; sourceTree = "<group>"; };
 		D1B9E6B1278C0A78006EAE64 /* AnimeDataService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimeDataService.swift; sourceTree = "<group>"; };
 		D1B9E6B2278C0A78006EAE64 /* AnimeGenreService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimeGenreService.swift; sourceTree = "<group>"; };
+		D1D16303278EA3E300A0B793 /* UIComponents */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = UIComponents; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -48,6 +50,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D1D16305278EA40700A0B793 /* UIComponents in Frameworks */,
 				D1F3C87B278C1FFD00B9125C /* ServicePackage in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -75,6 +78,7 @@
 		D15D2E99277B2FEF00720991 = {
 			isa = PBXGroup;
 			children = (
+				D1D16303278EA3E300A0B793 /* UIComponents */,
 				D1841500278BFCEF00A7BA95 /* ServicePackage */,
 				D15D2EA4277B2FEF00720991 /* OTUSHM3 */,
 				D15D2EA3277B2FEF00720991 /* Products */,
@@ -159,6 +163,7 @@
 			name = OTUSHM3;
 			packageProductDependencies = (
 				D1F3C87A278C1FFD00B9125C /* ServicePackage */,
+				D1D16304278EA40700A0B793 /* UIComponents */,
 			);
 			productName = OTUSHM3;
 			productReference = D15D2EA2277B2FEF00720991 /* OTUSHM3.app */;
@@ -430,6 +435,10 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		D1D16304278EA40700A0B793 /* UIComponents */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = UIComponents;
+		};
 		D1F3C87A278C1FFD00B9125C /* ServicePackage */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = ServicePackage;

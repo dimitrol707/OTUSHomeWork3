@@ -6,34 +6,35 @@
 //
 
 import SwiftUI
+import UIComponents
 
 struct HomeView: View {
     @ObservedObject private var homeViewModel: HomeViewModel = .init()
     
     var body: some View {
-        VStack {
-            Button {
-                homeViewModel.animeGenreService?.getAnimes()
-            } label: {
-                Text("Update")
-                    .foregroundColor(.black)
-                    .padding()
-                    .background(
-                        Capsule()
-                            .foregroundColor(.blue)
-                    )
-            }
-            
-            ScrollView(.vertical, showsIndicators: false) {
-                VStack(alignment: .leading) {
-                    ForEach(homeViewModel.animeList) {
-                        anime in
-                        Text(anime.title ?? "")
-                    }
+        ZStack {
+            Color(UIColor.systemGray4)
+                .ignoresSafeArea()
+            VStack(spacing: 15) {
+                Button {
+                    homeViewModel.animeGenreService?.getAnimes()
+                } label: {
+                    Text("Update")
                 }
-                .padding()
+                .buttonStyle(CustomButtonStyle())
+                
+                ScrollView(.vertical, showsIndicators: false) {
+                    VStack(alignment: .leading) {
+                        ForEach(homeViewModel.animeList) {
+                            anime in
+                            ElementView(text: anime.title ?? "")
+                        }
+                    }
+                    .padding(.horizontal)
+                }
             }
         }
+        
     }
 }
 
