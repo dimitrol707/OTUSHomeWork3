@@ -14,43 +14,35 @@ class HomeViewModel: ObservableObject {
     @Injected var animeDataService: AnimeDataService?
     
     @Published var animeList: [Anime] = []
-    private var cancellables = Set<AnyCancellable>()
     
     init() {
-        addSubsribers()
+        getAnimes()
     }
     
-    private func addSubsribers() {
-        animeDataService?.dataService.$savedEntities
-            .map({
-                animes -> [Anime] in
-                return animes
-                    .compactMap { anime -> Anime? in
-                        return Anime(id: Int(anime.id), title: anime.title)
-                    }
-            })
-            .sink(receiveValue: {
+    public func refreshAnimes() {
+        guard let genreService  = animeGenreService else { return }
+        genreService.getAnimes()
+            .sink(receiveCompletion: NetworkingManager.handleCompletion, receiveValue: {
                 [weak self] animes in
                 guard let self = self else { return }
-                if animes.isEmpty {
-                    self.animeGenreService?.getAnimes()
-                } else {
-                    self.animeList = animes
-                }
-            })
-            .store(in: &cancellables)
-        
-        animeGenreService?.$animeList
-            .sink(receiveValue: {
-                [weak self] animes in
-                guard let self = self,
-                      let animes = animes else { return }
-                animes.forEach {
-                    anime in
-                    self.animeDataService?.updateEntity(anime: anime)
-                }
                 self.animeList = animes
+                if let dataService = self.animeDataService {
+                    animes.forEach {
+                        anime in
+                        dataService.updateEntity(anime: anime)
+                    }
+                }
             })
-            .store(in: &cancellables)
+            .cancel()
+    }
+    
+    public func getAnimes() {
+        guard let service  = animeDataService else { return }
+        let savedEntities = service.fetchAnime()
+        if savedEntities.isEmpty {
+            refreshAnimes()
+        } else {
+            self.animeList = savedEntities
+        }
     }
 }

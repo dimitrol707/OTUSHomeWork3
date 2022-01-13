@@ -9,7 +9,11 @@ import Combine
 import Foundation
 
 public class NetworkingManager {
-    public static func request<T: Codable, Decoder: TopLevelDecoder>(url: URL, type: T.Type, decoder: Decoder) -> Publishers.Decode<AnyPublisher<Data, Error>, T, Decoder> {
+    private static var jsonDecoder = {
+       JSONDecoder()
+    }()
+    
+    public static func request<T: Codable>(url: URL, type: T.Type) -> AnyPublisher<T, Error> {
         URLSession.shared.dataTaskPublisher(for: url)
             .subscribe(on: DispatchQueue.global(qos: .default))
             .tryMap {
@@ -21,7 +25,16 @@ public class NetworkingManager {
                 return output.data
             }
             .receive(on: DispatchQueue.main)
+            .decode(type: T.self, decoder: jsonDecoder)
             .eraseToAnyPublisher()
-            .decode(type: T.self, decoder: decoder)
+    }
+    
+    public static func handleCompletion(completion: Subscribers.Completion<Error>) -> Void {
+        switch completion {
+        case .finished:
+            break
+        case .failure(let error):
+            print(error.localizedDescription)
+        }
     }
 }

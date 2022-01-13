@@ -17,7 +17,7 @@ struct HomeView: View {
                 .ignoresSafeArea()
             VStack(spacing: 15) {
                 Button {
-                    homeViewModel.animeGenreService?.getAnimes()
+                    homeViewModel.refreshAnimes()
                 } label: {
                     Text("Update")
                 }

@@ -12,8 +12,6 @@ public class DataService<Entity: NSManagedObject> {
     private var containerName: String
     private var entityName: String
     
-    @Published public var savedEntities: [Entity] = []
-    
     public init(containerName: String, entityName: String) {
         self.containerName = containerName
         self.entityName = entityName
@@ -23,7 +21,6 @@ public class DataService<Entity: NSManagedObject> {
             if let error = error {
                 print("Error loading Core Data! \(error)")
             }
-            self.fetch()
         }
     }
     
@@ -31,29 +28,31 @@ public class DataService<Entity: NSManagedObject> {
     public func add(operation: (Entity) -> ()) {
         let entity = Entity(context: container.viewContext)
         operation(entity)
-        applyChanges()
+        save()
     }
     
     public func update(entity: Entity, operation: (Entity) -> ()) {
         operation(entity)
-        applyChanges()
+        save()
     }
     
     public func remove(entity: Entity) {
         container.viewContext.delete(entity)
-        applyChanges()
+        save()
     }
     
-    // MARK: PRIVATE
-    private func fetch() {
+    public func fetch() -> [Entity] {
         let request = NSFetchRequest<Entity>(entityName: entityName)
+        var savedEntities: [Entity] = []
         do {
-            savedEntities = try container.viewContext.fetch(request)
+            savedEntities =  try container.viewContext.fetch(request)
         } catch let error {
             print("Error fetching Entity. \(error)")
         }
+        return savedEntities
     }
     
+    // MARK: PRIVATE
     private func save() {
         do {
             try container.viewContext.save()
@@ -61,9 +60,5 @@ public class DataService<Entity: NSManagedObject> {
             print("Error saving to Core Data. \(error)")
         }
     }
-    
-    private func applyChanges() {
-        save()
-        fetch()
-    }
+
 }

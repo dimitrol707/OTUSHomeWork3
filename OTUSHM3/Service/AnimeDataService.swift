@@ -18,8 +18,17 @@ class AnimeDataService {
         dataService = .init(containerName: containerName, entityName: entityName)
     }
     
+    public func fetchAnime() -> [Anime] {
+        let savedEntities = dataService.fetch()
+        return savedEntities
+                    .compactMap { anime -> Anime? in
+                        return Anime(id: Int(anime.id), title: anime.title)
+                    }
+    }
+    
     public func updateEntity(anime: Anime) {
-        if let entity = dataService.savedEntities.first(where: { $0.id == anime.id! }) {
+        let savedEntities = dataService.fetch()
+        if let entity = savedEntities.first(where: { $0.id == anime.id! }) {
             dataService.update(entity: entity, operation: {
                 animeEntity in
                 animeEntity.title = anime.title!
